@@ -1,20 +1,25 @@
 #!/bin/tcsh
 echo "FreeNAS Gogs installation script."
 echo "This has been tested on:"
+<<<<<<< HEAD
 echo "    9.3-RELEASE-p29"
+=======
+echo "    9.3-RELEASE-p29 FreeBSD"
+>>>>>>> 24052457bbabf197b2c4e1745f45901fa9e247f2
 echo
 echo
 echo "Press any key to begin"
 set jnk = $<
 
-if ( -f /usr/locat/etc/rc.d/gogs ) then
-    echo "Updating Gogs..."
+if ( -f /usr/local/etc/rc.d/gogs ) then
+    echo "Gogs Install found. Updating..."
     echo
     # Stop Gogs service
     service gogs stop 
     ./gogs-compile.sh
     echo "Update Done!"
 else
+    echo "Install Gogs from zero"
     # 3) Enable SSH
     echo "Enabling SSH"
     /usr/bin/sed -i '.bak' 's/sshd_enable="NO"/sshd_enable="YES"/g' /etc/rc.conf
@@ -47,7 +52,7 @@ else
     chown -R git:git $GITHOME
     su - git -c "/usr/bin/ssh-keygen -b 2048 -N '' -f ~/.ssh/id_rsa -t rsa -q &"
     # 6) Get & compile gogs
-    gogs-compile.sh
+    ./gogs-compile.sh
     su - git -c "ln -s /usr/home/git/.ssh/ /usr/home/git/gogs/"
     # 7) Start up scripts
     echo gogs_enable="YES" >> /etc/rc.conf
